@@ -1,0 +1,110 @@
+<h2>Proposed Architecture: Mac Cleaner Redesign</h2>
+<p class="subtitle">From 1853-line god function to modular panels + widgets</p>
+
+<div class="section">
+  <h3>Module Structure</h3>
+  <pre style="background:#1a1a2e; padding:16px; border-radius:8px; font-size:13px; line-height:1.6">
+src/
+├── main.rs           # Entry point, ~10 lines
+├── app.rs            # Application state + event loop
+├── theme.rs          # Colors, spacing, typography
+├── models.rs         # Data types (CleanupEntry, etc.)
+│
+├── panels/
+│   ├── mod.rs
+│   ├── sidebar.rs    # Navigation sidebar
+│   ├── dashboard.rs  # Overview / storage card
+│   ├── cleanup.rs    # Scan results + selection
+│   ├── applications.rs
+│   ├── large_files.rs
+│   └── header.rs     # Top bar with disk usage
+│
+├── widgets/
+│   ├── mod.rs
+│   ├── storage_card.rs
+│   ├── cleanup_card.rs
+│   ├── toast.rs      # Toast notifications
+│   ├── search_bar.rs
+│   └── danger_dialog.rs
+│
+├── scanning/
+│   ├── mod.rs
+│   ├── scanner.rs    # Main scan orchestrator
+│   ├── orphan.rs     # Orphan detection
+│   └── deletion.rs   # Delete pipeline
+│
+└── util/
+    ├── mod.rs
+    └── format.rs     # format_size, du_sh, etc.
+  </pre>
+</div>
+
+<div class="section">
+  <h3>Layout Structure</h3>
+  <div class="mockup" style="max-width:700px">
+    <div style="display:grid; grid-template-columns:200px 1fr; grid-template-rows:auto 1fr auto; min-height:300px; gap:1px; background:#2a2a4a">
+      <div style="grid-column:1/-1; background:#1e1e3a; padding:8px 16px; display:flex; align-items:center; gap:16px">
+        <span style="font-weight:bold">🧹 Mac Cleaner</span>
+        <span style="flex:1; height:8px; background:#333; border-radius:4px">
+          <span style="display:block; width:65%; height:100%; background:#6c5ce7; border-radius:4px"></span>
+        </span>
+        <span style="color:#888; font-size:12px">245 GB / 512 GB</span>
+      </div>
+      <div style="background:#1a1a2e; padding:12px; display:flex; flex-direction:column; gap:4px">
+        <div style="padding:8px 12px; border-radius:6px; background:#6c5ce7; color:white">📊 Dashboard</div>
+        <div style="padding:8px 12px; border-radius:6px; color:#ccc">🧹 Cleanup</div>
+        <div style="padding:8px 12px; border-radius:6px; color:#ccc">📱 Applications</div>
+        <div style="padding:8px 12px; border-radius:6px; color:#ccc">🐘 Large Files</div>
+        <div style="flex:1"></div>
+        <div style="padding:8px 12px; border-radius:6px; color:#666">⚙ Settings</div>
+      </div>
+      <div style="background:#16162a; padding:16px; display:flex; flex-direction:column; gap:12px">
+        <div style="display:flex; gap:8px">
+          <div style="flex:1; background:#1e1e3a; border-radius:8px; padding:12px">
+            <div style="color:#888; font-size:11px">RECOVERABLE</div>
+            <div style="font-size:20px; font-weight:bold">46.2 GB</div>
+          </div>
+          <div style="flex:1; background:#1e1e3a; border-radius:8px; padding:12px">
+            <div style="color:#888; font-size:11px">SELECTED</div>
+            <div style="font-size:20px; font-weight:bold">12.1 GB</div>
+          </div>
+        </div>
+        <div style="background:#1e1e3a; border-radius:8px; padding:12px">
+          <div style="display:flex; justify-content:space-between; margin-bottom:8px">
+            <span><span style="opacity:0.6">✓</span> Trash</span><span>8.0 GB</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:8px">
+            <span><span style="opacity:0.6">✓</span> Xcode DerivedData</span><span>14.2 GB</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:8px">
+            <span><span style="opacity:0.6">✓</span> npm Cache</span><span>4.1 GB</span>
+          </div>
+          <div style="display:flex; justify-content:space-between">
+            <span><span style="opacity:0.6">✓</span> Docker</span><span>7.3 GB</span>
+          </div>
+        </div>
+      </div>
+      <div style="grid-column:1/-1; background:#1e1e3a; padding:8px 16px; display:flex; justify-content:space-between; font-size:12px; color:#888">
+        <span>Total: 185.3 GB — Selected: 3 items (33.6 GB)</span>
+        <span>[Select All] [Clear] [≥100MB] [🧹 Clean Selected]</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="options">
+  <div class="option" data-choice="approve" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>Looks good — proceed to write spec</h3>
+      <p>This architecture matches what I had in mind.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="adjust" onclick="toggleSelect(this)">
+    <div class="letter">✎</div>
+    <div class="content">
+      <h3>I want adjustments</h3>
+      <p>Let me suggest changes to the architecture or layout.</p>
+    </div>
+  </div>
+</div>

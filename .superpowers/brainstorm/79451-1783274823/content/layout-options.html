@@ -1,0 +1,42 @@
+<h2>Layout Options</h2>
+<p class="subtitle">Pick the structure that feels right for a native macOS utility</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Sidebar + Content</h3>
+      <p style="margin-bottom:8px">Standard macOS utility layout — fixed sidebar, main content area, footer bar.</p>
+      <div style="display:grid; grid-template-columns:160px 1fr; grid-template-rows:40px 1fr 32px; height:120px; gap:2px; background:#2a2a4a; border-radius:6px; overflow:hidden">
+        <div style="grid-column:1/-1; background:#1e1e3a; padding:4px 8px;font-size:9px">Header</div>
+        <div style="background:#1a1a2e; padding:8px;font-size:9px">Sidebar</div>
+        <div style="background:#16162a; padding:8px;font-size:9px">Content</div>
+        <div style="grid-column:1/-1; background:#1e1e3a; padding:4px 8px;font-size:9px">Footer</div>
+      </div>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Tab Bar (macOS Preferences style)</h3>
+      <p style="margin-bottom:8px">No sidebar — segmented control / tab bar at top, like System Settings or Xcode preferences.</p>
+      <div style="display:grid; grid-template-rows:auto 1fr 32px; height:120px; gap:2px; background:#2a2a4a; border-radius:6px; overflow:hidden">
+        <div style="background:#1e1e3a; padding:4px 8px;font-size:9px">Header + Tabs</div>
+        <div style="background:#16162a; padding:8px;font-size:9px">Content</div>
+        <div style="background:#1e1e3a; padding:4px 8px;font-size:9px">Footer</div>
+      </div>
+    </div>
+  </div>
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Minimal — Content Only</h3>
+      <p style="margin-bottom:8px">Single-pane, view-switching buttons in header. No persistent sidebar or tabs — maximises scan result space.</p>
+      <div style="display:grid; grid-template-rows:40px 1fr 32px; height:120px; gap:2px; background:#2a2a4a; border-radius:6px; overflow:hidden">
+        <div style="background:#1e1e3a; padding:4px 8px;font-size:9px">Header (with view switcher)</div>
+        <div style="background:#16162a; padding:8px;font-size:9px">Content</div>
+        <div style="background:#1e1e3a; padding:4px 8px;font-size:9px">Footer</div>
+      </div>
+    </div>
+  </div>
+</div>
