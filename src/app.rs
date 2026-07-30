@@ -2,7 +2,7 @@ use std::collections::HashSet;
 use std::sync::mpsc;
 use std::time::{Duration, Instant};
 
-use egui::{Align, Button, Layout, RichText, ScrollArea, Ui};
+use egui::{Align, Button, ComboBox, Layout, RichText, ScrollArea, Ui};
 
 use crate::models::*;
 use crate::panels::*;
@@ -107,11 +107,11 @@ impl CleanupApp {
             let selected_count = self.entries.iter().filter(|e| e.selected).count();
             let total_bytes: u64 = self.entries.iter().map(|e| e.size_bytes).sum();
 
-            ui.label(format!(
-                "Total found: {}  —  Selected: {selected_count} items ({})",
+            ui.label(RichText::new(format!(
+                "Total: {}  —  Selected: {selected_count} items ({})",
                 format_size(total_bytes),
                 format_size(selected_bytes),
-            ));
+            )).size(13.0).color(THEME.text_secondary));
 
             ui.separator();
 
@@ -123,30 +123,36 @@ impl CleanupApp {
                 .map(|(i, _)| i)
                 .collect();
 
-            if ui.button("Select all (filtered)").clicked() {
-                for &i in &filtered_ids {
-                    self.entries[i].selected = true;
-                }
-            }
-            if ui.button("Clear selection").clicked() {
-                for e in &mut self.entries {
-                    e.selected = false;
-                }
-            }
-            if ui.button("Select >=100 MB").clicked() {
-                for &i in &filtered_ids {
-                    if self.entries[i].size_bytes >= 100 * 1024 * 1024 {
-                        self.entries[i].selected = true;
+            ComboBox::from_id_salt("select_mode")
+                .selected_text("Select: All")
+                .width(110.0)
+                .show_ui(ui, |ui| {
+                    ui.set_min_width(140.0);
+                    if ui.selectable_label(false, "All filtered").clicked() {
+                        for &i in &filtered_ids {
+                            self.entries[i].selected = true;
+                        }
                     }
-                }
-            }
-            if ui.button("Select high-confidence orphans").clicked() {
-                for &i in &filtered_ids {
-                    if self.entries[i].orphan_confidence == Some(OrphanConfidence::High) {
-                        self.entries[i].selected = true;
+                    if ui.selectable_label(false, "≥100 MB").clicked() {
+                        for &i in &filtered_ids {
+                            if self.entries[i].size_bytes >= 100 * 1024 * 1024 {
+                                self.entries[i].selected = true;
+                            }
+                        }
                     }
-                }
-            }
+                    if ui.selectable_label(false, "High-confidence orphans").clicked() {
+                        for &i in &filtered_ids {
+                            if self.entries[i].orphan_confidence == Some(OrphanConfidence::High) {
+                                self.entries[i].selected = true;
+                            }
+                        }
+                    }
+                    if ui.selectable_label(false, "Clear selection").clicked() {
+                        for e in &mut self.entries {
+                            e.selected = false;
+                        }
+                    }
+                });
 
             ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
                 let log_label = if self.log_messages.is_empty() {
@@ -154,16 +160,26 @@ impl CleanupApp {
                 } else {
                     format!("Log ({})", self.log_messages.len())
                 };
-                if ui.button(log_label).clicked() {
+                if ui
+                    .add(Button::new(RichText::new(log_label).size(12.0)))
+                    .clicked()
+                {
                     self.show_log = !self.show_log;
                 }
 
-                ui.checkbox(&mut self.dry_run, "Dry run");
+                let clean_label = if selected_count > 0 {
+                    format!("Clean Selected ({})", selected_count)
+                } else {
+                    "Clean Selected".into()
+                };
 
                 if ui
                     .add_enabled(
                         selected_count > 0 && !self.deleting,
-                        Button::new(RichText::new("🧹 Clean Selected").color(THEME.text_primary)),
+                        Button::new(RichText::new(clean_label)
+                            .size(13.0)
+                            .color(THEME.text_primary)
+                            .strong()),
                     )
                     .clicked()
                 {
@@ -171,6 +187,8 @@ impl CleanupApp {
                         self.entries.iter().filter(|e| e.selected).cloned().collect();
                     self.confirm.open(items, self.dry_run);
                 }
+
+                ui.checkbox(&mut self.dry_run, "Dry run");
 
                 if let Some(ref t) = self.toast {
                     t.show(ui);

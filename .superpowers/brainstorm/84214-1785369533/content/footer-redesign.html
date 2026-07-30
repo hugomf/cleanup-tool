@@ -1,0 +1,80 @@
+<h2>Footer Redesign — Segmented Toolbar</h2>
+<p class="subtitle">Approach A: Clear groupings, visual hierarchy, professional look</p>
+
+<div class="section">
+  <h3>Proposed Footer Layout</h3>
+  <p>The bottom bar is divided into two clear zones with the primary action standing out.</p>
+
+  <div class="mockup" style="margin-top: 16px;">
+    <div class="mockup-body" style="padding: 0;">
+      <div style="background: #1a1a2e; border-radius: 8px; padding: 12px 16px; font-family: system-ui, -apple-system, sans-serif;">
+        
+        <!-- Left group: Info + Selection tools -->
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="color: #94a3b8; font-size: 13px; white-space: nowrap;">
+            Total: 2.4 GB &mdash; Selected: <strong style="color: #e2e8f0;">12 items</strong> (1.1 GB)
+          </span>
+          
+          <div style="width: 1px; height: 20px; background: #334155;"></div>
+          
+          <div style="display: flex; gap: 4px;">
+            <button style="background: #1e293b; color: #e2e8f0; border: 1px solid #334155; border-radius: 6px; padding: 4px 10px; font-size: 12px; cursor: default;">Select: All ▼</button>
+            <button style="background: #1e293b; color: #e2e8f0; border: 1px solid #334155; border-radius: 6px; padding: 4px 10px; font-size: 12px; cursor: default;">≥100 MB</button>
+            <button style="background: #1e293b; color: #e2e8f0; border: 1px solid #334155; border-radius: 6px; padding: 4px 10px; font-size: 12px; cursor: default;">Orphans</button>
+            <button style="background: #1e293b; color: #94a3b8; border: 1px solid #334155; border-radius: 6px; padding: 4px 10px; font-size: 12px; cursor: default;">Clear</button>
+          </div>
+        </div>
+        
+        <!-- Spacer -->
+        <div style="flex: 1;"></div>
+        
+        <!-- Right group: Actions -->
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <label style="display: flex; align-items: center; gap: 6px; color: #94a3b8; font-size: 13px; cursor: default;">
+            <span style="display: inline-block; width: 14px; height: 14px; border: 2px solid #475569; border-radius: 3px; background: #1e293b;"></span>
+            Dry run
+          </label>
+          
+          <button style="background: #6366f1; color: white; border: none; border-radius: 6px; padding: 6px 16px; font-size: 13px; font-weight: 600; cursor: default;">
+            Clean Selected (12)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Changes from Current</h3>
+  <ul style="color: #cbd5e1; line-height: 1.7;">
+    <li><strong>Clean button</strong> becomes the primary action — indigo fill, white text, shows item count as a badge</li>
+    <li><strong>Two clear zones</strong> — left side for selection tools, right side for actions</li>
+    <li><strong>Compact select dropdown</strong> replaces individual "Select all (filtered)" button</li>
+    <li><strong>No emoji</strong> on Clean button — professional look with badge counter</li>
+    <li><strong>Consistent spacing</strong> and visual grouping with subtle separators</li>
+  </ul>
+</div>
+
+<div class="options" style="margin-top: 24px;">
+  <div class="option" data-choice="approve" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>Looks good — implement it</h3>
+      <p>I like this approach, proceed with implementation</p>
+    </div>
+  </div>
+  <div class="option" data-choice="tweak" onclick="toggleSelect(this)">
+    <div class="letter">✎</div>
+    <div class="content">
+      <h3>Minor tweaks needed</h3>
+      <p>Close but I want to adjust something</p>
+    </div>
+  </div>
+  <div class="option" data-choice="different" onclick="toggleSelect(this)">
+    <div class="letter">→</div>
+    <div class="content">
+      <h3>Different direction</h3>
+      <p>Try another approach entirely</p>
+    </div>
+  </div>
+</div>
