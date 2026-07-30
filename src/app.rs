@@ -176,10 +176,9 @@ impl CleanupApp {
                 if ui
                     .add_enabled(
                         selected_count > 0 && !self.deleting,
-                        Button::new(RichText::new(clean_label)
-                            .size(13.0)
-                            .color(THEME.text_primary)
-                            .strong()),
+                        Button::new(RichText::new(clean_label).size(13.0).strong())
+                            .fill(THEME.accent)
+                            .corner_radius(6),
                     )
                     .clicked()
                 {
